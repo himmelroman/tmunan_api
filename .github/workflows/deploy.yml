@@ -33,7 +33,7 @@ jobs:
 
     - name: Install Serverless Framework
       run: |
-        npx serverless deploy
+        npm install -g serverless@3
 
     - name: Deploy to AWS
       run: |
