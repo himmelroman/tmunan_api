@@ -1,0 +1,97 @@
+service: express-api
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-west-1
+  stage: ${opt:stage, 'dev'}  # Default stage is dev
+  environment:
+    ECS_CLUSTER_NAME: tmunan_cluster
+    TASK_DEFINITION: tmunan_task
+    CONTAINER_NAME: stream
+    DYNAMODB_TABLE: ${self:service}_${self:provider.stage}_sessions
+  iam:
+    role: arn:aws:iam::090268630745:role/github_deploy_role
+  deploymentBucket:
+    name: tmunan-deployment-bucket
+    serverSideEncryption: AES256  # Optional: Enables server-side encryption
+  httpApi:
+    authorizers:
+      auth0-authorizer:
+        type: request
+        identitySource:
+          - '$request.header.Authorization'  # Adjust as needed
+        resultTtlInSeconds: 60  # Caching configuration
+        functionName: auth0-authorizer  # Reference to the actual Lambda function
+
+package:
+  individually: true
+  exclude:
+    - ".*/**"
+
+resources:
+  Resources:
+    SessionsDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: user_id
+            AttributeType: S
+          - AttributeName: session_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: user_id
+            KeyType: HASH
+          - AttributeName: session_id
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+
+functions:
+  auth0-authorizer:
+    handler: orc.auth.authorizer.handler
+    role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
+    package:
+      include:
+        - orc/**
+    environment:
+      AUTH0_DOMAIN: dev-68iu6g42wy1qjtkd.eu.auth0.com
+      API_AUDIENCE: https://api.tmunan.icu
+
+  api:
+    handler: orc.sessions.rest_api.handler
+    role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
+    package:
+      include:
+        - orc/**
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
+#          authorizer:
+#            name: auth0-authorizer
+
+  register-usage:
+    handler: orc.register_usage.handler.register_usage
+    role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
+    package:
+      include:
+        - orc/**
+    events:
+      - eventBridge:
+          pattern:
+            source:
+              - tmunan.task
+            detail-type:
+              - tmunan.usage.update
+              
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+custom:
+  serverless-offline:
+    httpPort: 3001

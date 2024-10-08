@@ -1,0 +1,37 @@
+name: Deploy API
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Configure AWS credentials using OIDC
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: eu-west-1
+        role-to-assume: arn:aws:iam::090268630745:role/github_deploy_role
+
+     - name: Install Serverless Framework
+        run: |
+          npm install -g serverless@3
+          serverless plugin install -n serverless-python-requirements
+
+      - name: Deploy to AWS
+        run: |
+          serverless deploy
