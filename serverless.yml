@@ -17,14 +17,14 @@ provider:
   deploymentBucket:
     name: tmunan-deployment-bucket
     serverSideEncryption: AES256  # Optional: Enables server-side encryption
-  httpApi:
-    authorizers:
-      auth0-authorizer:
-        type: request
-        identitySource:
-          - '$request.header.Authorization'  # Adjust as needed
-        resultTtlInSeconds: 60  # Caching configuration
-        functionName: auth0-authorizer  # Reference to the actual Lambda function
+  # httpApi:
+  #   authorizers:
+  #     auth0-authorizer:
+  #       type: request
+  #       identitySource:
+  #         - '$request.header.Authorization'  # Adjust as needed
+  #       resultTtlInSeconds: 60  # Caching configuration
+  #       functionName: auth0-authorizer  # Reference to the actual Lambda function
 
 package:
   individually: true
