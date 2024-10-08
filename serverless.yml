@@ -51,42 +51,59 @@ resources:
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
 
 functions:
-  auth0-authorizer:
-    handler: orc.auth.authorizer.handler
-    role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
-    package:
-      include:
-        - orc/**
-    environment:
-      AUTH0_DOMAIN: dev-68iu6g42wy1qjtkd.eu.auth0.com
-      API_AUDIENCE: https://api.tmunan.icu
-
-  api:
-    handler: orc.sessions.rest_api.handler
-    role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
-    package:
-      include:
-        - orc/**
+  public:
+    handler: app.handler
     events:
-      - httpApi:
-          path: /{proxy+}
-          method: ANY
+      - http:
+          path: public
+          method: get
+          cors: true
+
+  private:
+    handler: app.handler
+    events:
+      - http:
+          path: private
+          method: get
+          cors: true
+
+# functions:
+#   auth0-authorizer:
+#     handler: orc.auth.authorizer.handler
+#     role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
+#     package:
+#       include:
+#         - orc/**
+#     environment:
+#       AUTH0_DOMAIN: dev-68iu6g42wy1qjtkd.eu.auth0.com
+#       API_AUDIENCE: https://api.tmunan.icu
+
+#   api:
+#     handler: orc.sessions.rest_api.handler
+#     role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
+#     package:
+#       include:
+#         - orc/**
+#     events:
+#       - httpApi:
+#           path: /{proxy+}
+#           method: ANY
 #          authorizer:
 #            name: auth0-authorizer
 
-  register-usage:
-    handler: orc.register_usage.handler.register_usage
-    role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
-    package:
-      include:
-        - orc/**
-    events:
-      - eventBridge:
-          pattern:
-            source:
-              - tmunan.task
-            detail-type:
-              - tmunan.usage.update
+  # register-usage:
+  #   handler: orc.register_usage.handler.register_usage
+  #   role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
+  #   package:
+  #     include:
+  #       - orc/**
+  #   events:
+  #     - eventBridge:
+  #         pattern:
+  #           source:
+  #             - tmunan.task
+  #           detail-type:
+  #             - tmunan.usage.update
               
 plugins:
   - serverless-offline
