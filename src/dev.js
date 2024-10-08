@@ -11,10 +11,10 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 async function testDb() {
     const params = {
-        TableName: process.env.DYNAMODB_TABLE || 'data',
+        TableName: 'data',
         Item: {
-          userId: 'user123',
-          sessionId: 'session123',
+          PK: 'user123',
+          SK: 'session123',
           createdAt: new Date().toISOString(),
           expiresAt: new Date(Date.now() + 3600 * 1000).toISOString(), // 1 hour from now
           usageCount: 0
