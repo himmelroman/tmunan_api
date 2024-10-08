@@ -1,5 +1,5 @@
 const serverless = require('serverless-http');
-const app = require('./src/app'); // Import the Express app
+const app = require('./app'); // Import the Express app
 
 // Global error handler for Lambda
 app.use((err, req, res, next) => {
