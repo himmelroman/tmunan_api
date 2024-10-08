@@ -1,4 +1,4 @@
-service: express-api
+service: tmunan-api
 
 frameworkVersion: '3'
 
@@ -8,10 +8,7 @@ provider:
   region: eu-west-1
   stage: ${opt:stage, 'dev'}  # Default stage is dev
   environment:
-    ECS_CLUSTER_NAME: tmunan_cluster
-    TASK_DEFINITION: tmunan_task
-    CONTAINER_NAME: stream
-    DYNAMODB_TABLE: ${self:service}_${self:provider.stage}_sessions
+    DYNAMODB_TABLE: ${self:service}_${self:provider.stage}_data
   iam:
     role: arn:aws:iam::090268630745:role/github_deploy_role
   deploymentBucket:
@@ -33,7 +30,7 @@ package:
 
 resources:
   Resources:
-    DataDynamoDbTable:
+    DataDynamoDbTable: 
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:
