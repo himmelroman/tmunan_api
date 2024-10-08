@@ -1,7 +1,7 @@
 // const { DataMapper } = require('@aws/dynamodb-data-mapper');
 // const DynamoDB = require('aws-sdk/clients/dynamodb');
 // const { Session, mapper } = require('./models/session');
-
+require('dotenv').config();
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -11,7 +11,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 async function testDb() {
     const params = {
-        TableName: 'tmunan-data',
+        TableName: process.env.DYNAMODB_TABLE,
         Item: {
           PK: 'user123',
           SK: 'session123',
