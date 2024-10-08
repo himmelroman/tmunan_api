@@ -52,7 +52,7 @@ resources:
 
 functions:
   public:
-    handler: app.handler.handler
+    handler: src/handler.handler
     role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
     events:
       - http:
@@ -61,7 +61,7 @@ functions:
           cors: true
 
   private:
-    handler: app.handler.handler
+    handler: src/handler.handler
     role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
     events:
       - http:
