@@ -16,7 +16,7 @@
     "serverless-http": "^3.2.0"
   },
   "devDependencies": {
-    "serverless": "^4.4.4",
+    "serverless": "3",
     "serverless-dotenv-plugin": "^6.0.0",
     "serverless-offline": "^14.3.2"
   }
