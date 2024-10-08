@@ -11,7 +11,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 async function testDb() {
     const params = {
-        TableName: 'data',
+        TableName: 'tmunan-data',
         Item: {
           PK: 'user123',
           SK: 'session123',
