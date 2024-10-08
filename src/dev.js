@@ -31,9 +31,10 @@ async function testDb() {
     try {
         await dynamoDb.put(params).promise();
       // await mapper.put(session);
-      console.log('Session inserted successfully:', session);
+      console.log('Session inserted successfully:', params);
     } catch (error) {
-      console.error('Error inserting session:', error);
+        console.error('Error inserting session:', error);
+        throw error;
     }
   }
 

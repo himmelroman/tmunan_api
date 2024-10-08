@@ -14,8 +14,13 @@ app.get('/private', (req, res) => {
 });
 
 app.get('/dbtest', async (req, res) => {
-    await dev.testDb();
-    res.send('Database test successful.');
+    try {
+        await dev.testDb();
+        res.send('Database test successful.');
+    } catch (error) {
+        console.error('Error during database test:', error);
+        res.status(500).send('Database test failed.');
+    }
 });
 
 module.exports = app;
