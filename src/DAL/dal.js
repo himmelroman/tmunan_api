@@ -1,4 +1,5 @@
 const { mapper, client } = require('./mapper');
+require('dotenv').config();
 
 class DAL {
   static async saveEntity(entity) {
@@ -13,7 +14,7 @@ class DAL {
     let e = new entityClass();
 
     const key = {
-      TableName: tableName,
+      TableName: process.env.DYNAMODB_TABLE,
       Key: {
         PK: userId,
         SK: `${e.entityType}#${entityId}`
