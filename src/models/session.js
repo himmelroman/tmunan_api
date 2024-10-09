@@ -1,5 +1,5 @@
 // const { BaseManyEntity } = require('./base');
-const { attribute } = require('@aws/dynamodb-data-mapper-annotations');
+const { attribute, table } = require('@aws/dynamodb-data-mapper-annotations');
 const { v4: uuidv4 } = require('uuid');
 
 // Define the Session class extending BaseManyEntity
