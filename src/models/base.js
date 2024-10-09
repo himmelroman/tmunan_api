@@ -20,6 +20,8 @@ attribute()(BaseEntity.prototype, 'PK');
 attribute()(BaseEntity.prototype, 'SK');
 attribute()(BaseEntity.prototype, 'createdAt');
 attribute()(BaseEntity.prototype, 'updatedAt');
+
+// Apply the table decorator for the single table
 table(process.env.DYNAMODB_TABLE)(BaseEntity);
 
 // Define the BaseManyEntity class that extends BaseEntity
@@ -29,12 +31,5 @@ class BaseManyEntity extends BaseEntity {
     return `${this.entityType}#${timestamp}`;
   }
 }
-
-// Apply the attributes manually for the derived class
-attribute()(BaseManyEntity.prototype, 'PK');
-attribute()(BaseManyEntity.prototype, 'SK');
-attribute()(BaseManyEntity.prototype, 'createdAt');
-attribute()(BaseManyEntity.prototype, 'updatedAt');
-table(process.env.DYNAMODB_TABLE)(BaseManyEntity);
 
 module.exports = { BaseEntity, BaseManyEntity };

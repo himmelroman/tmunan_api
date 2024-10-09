@@ -16,8 +16,15 @@ class DAL {
       PK: userId,
       SK: `${e.entityType}#${entityId}`
     };
-    console.log(key);
-    return await mapper.get(Object.assign(e, key));
+    e = Object.assign(e, key);
+    console.log(e);
+    
+    try {
+      return await mapper.get(e);
+    } catch (error) {
+      console.error('Error getting entity by ID:', error);
+      throw error;
+    }
   }
 
   async deleteEntity(entity) {
