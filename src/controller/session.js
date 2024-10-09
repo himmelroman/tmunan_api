@@ -45,13 +45,15 @@ router.get('/sessions/:id', async (req, res) => {
 
 // Update a session by ID
 router.patch('/sessions/:id/update_usage', async (req, res) => {
-  try {
+    console.log(req.body.usage_time_seconds);
+    try {
     const session = await DAL.getById('value1', Session, req.params.id); // TODO
     if (!session) {
       return res.status(404).send();
     }
     console.log(session);
-    session[usageCount] = req.body[usage_time_seconds];
+    session.usageCount = req.body.usage_time_seconds;
+    console.log(session);
     await DAL.saveEntity(session);
     res.status(200).send(session);
   } catch (error) {
