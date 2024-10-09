@@ -24,15 +24,6 @@ class DAL {
       TableName: process.env.DYNAMODB_TABLE,
       Key: key
     };
-
-    
-    
-    
-    // e = Object.assign(e, key);
-
-    console.log("Entity before get:", params);
-    console.log("PK:", params.Key.PK, typeof params.Key.PK);
-    console.log("SK:", params.Key.SK, typeof params.Key.SK);
     
     try {
       const data = await client.get(params).promise();

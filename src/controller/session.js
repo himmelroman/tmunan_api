@@ -35,7 +35,7 @@ router.get('/sessions/:id', async (req, res) => {
     if (!session) {
       return res.status(404).send();
     }
-    console.log(session);
+    
     res.status(200).send(session);
   } catch (error) {
     console.log(error);
@@ -47,11 +47,11 @@ router.get('/sessions/:id', async (req, res) => {
 router.patch('/sessions/:id/update_usage', async (req, res) => {
   
   try {
-    const session = await Session.findById('value1', 'session', req.params.id); // TODO
+    const session = await Session.getById('value1', Session, req.params.id); // TODO
     if (!session) {
       return res.status(404).send();
     }
-
+    console.log(session);
     session[usageCount] = req.body[usage_time_seconds];
     await DAL.saveEntity(session);
     res.status(200).send(session);
