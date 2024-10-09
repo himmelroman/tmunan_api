@@ -1,4 +1,4 @@
-const mapper = require('./mapper');
+const { mapper, client } = require('./mapper');
 
 class DAL {
   static async saveEntity(entity) {
@@ -13,17 +13,23 @@ class DAL {
     let e = new entityClass();
 
     const key = {
-      PK: userId,
-      SK: `${e.entityType}#${entityId}`
+      TableName: tableName,
+      Key: {
+        PK: userId,
+        SK: `${e.entityType}#${entityId}`
+      }
     };
-    e = Object.assign(e, key);
+    
+    
+    // e = Object.assign(e, key);
 
-    console.log("Entity before get:", e);
-    console.log("PK:", e.PK, typeof e.PK);
-    console.log("SK:", e.SK, typeof e.SK);
+    // console.log("Entity before get:", e);
+    // console.log("PK:", e.PK, typeof e.PK);
+    // console.log("SK:", e.SK, typeof e.SK);
     
     try {
-      return await mapper.get(e);
+      return await client.get(key).promise();
+      // return await mapper.get(e);
     } catch (error) {
       console.log(error.__type);
       console.error('Error getting entity by ID:', error);

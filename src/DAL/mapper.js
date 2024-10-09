@@ -4,4 +4,4 @@ const DynamoDB = require('aws-sdk/clients/dynamodb');
 const client = new DynamoDB();
 const mapper = new DataMapper({ client });
 
-module.exports = mapper;
+module.exports = { mapper, client };
