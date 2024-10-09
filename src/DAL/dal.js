@@ -9,8 +9,15 @@ class DAL {
     return await mapper.get(Object.assign(new entityClass(), key));
   }
 
-  static async getById(userId, entityType, entityId) {
-    return await mapper.get({ PK: userId, SK: `${entityType}#${entityId}` });
+  static async getById(userId, entityClass, entityId) {
+    let e = new entityClass();
+
+    const key = {
+      PK: userId,
+      SK: `${e.entityType}#${entityId}`
+    };
+    console.log(key);
+    return await mapper.get(Object.assign(e, key));
   }
 
   async deleteEntity(entity) {

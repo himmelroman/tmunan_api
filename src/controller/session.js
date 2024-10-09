@@ -31,12 +31,13 @@ router.post('/sessions', async (req, res) => {
 // Read a session by ID
 router.get('/sessions/:id', async (req, res) => {
   try {
-    const session = await DAL.getById('value1', 'session', req.params.id); // TODO
+    const session = await DAL.getById('value1', Session, req.params.id); // TODO
     if (!session) {
       return res.status(404).send();
     }
     res.status(200).send(session);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 });
