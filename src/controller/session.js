@@ -45,9 +45,8 @@ router.get('/sessions/:id', async (req, res) => {
 
 // Update a session by ID
 router.patch('/sessions/:id/update_usage', async (req, res) => {
-  
   try {
-    const session = await Session.getById('value1', Session, req.params.id); // TODO
+    const session = await DAL.getById('value1', Session, req.params.id); // TODO
     if (!session) {
       return res.status(404).send();
     }
