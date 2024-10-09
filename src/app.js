@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const dev = require('./dev');
+const sessionsRouter = require('./controller/session');
 
 // Middleware for parsing JSON requests
 app.use(express.json());
@@ -22,5 +23,7 @@ app.get('/dbtest', async (req, res) => {
         res.status(500).send('Database test failed.');
     }
 });
+
+app.use('/sessions', sessionsRouter);
 
 module.exports = app;

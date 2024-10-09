@@ -1,12 +1,6 @@
-// models/session.js
-const { DataMapper } = require('@aws/dynamodb-data-mapper');
-const DynamoDB = require('aws-sdk/clients/dynamodb');
-const { attribute, hashKey, rangeKey, table } = require('@aws/dynamodb-data-mapper-annotations');
+const { attribute, table } = require('@aws/dynamodb-data-mapper-annotations');
 
-const client = new DynamoDB();
-const mapper = new DataMapper({ client });
-
-@table('tmunan-data')
+@table(process.env.DYNAMODB_TABLE)
 class BaseEntity {
   @attribute()
   pk;
@@ -20,8 +14,10 @@ class BaseEntity {
   @attribute()
   updatedAt;
 
-  constructor(entityType) {
+  constructor(userId, entityType) {
+    this.pk = userId;
     this.entityType = entityType;
+    this.sk = this.getSK();
   }
 
   getSK() {

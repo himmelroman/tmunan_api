@@ -75,6 +75,15 @@ functions:
           method: get
           cors: true
 
+  createSession:
+    handler: src/handler.handler
+    role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
+    events:
+      - http:
+          path: sessions/sessions
+          method: post
+          cors: true
+
 # functions:
 #   auth0-authorizer:
 #     handler: orc.auth.authorizer.handler
