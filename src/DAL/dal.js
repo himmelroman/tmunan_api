@@ -13,11 +13,16 @@ class DAL {
   static async getById(userId, entityClass, entityId) {
     let e = new entityClass();
 
+    const k = {
+      PK: userId,
+      SK: `${e.entityType}#${entityId}`
+    };
+
     const key = {
       TableName: process.env.DYNAMODB_TABLE,
       Key: {
-        PK: userId,
-        SK: `${e.entityType}#${entityId}`
+        PK: k.PK,
+        SK: k.SK
       }
     };
     
