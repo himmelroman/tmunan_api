@@ -35,6 +35,7 @@ router.get('/sessions/:id', async (req, res) => {
     if (!session) {
       return res.status(404).send();
     }
+    console.log(session);
     res.status(200).send(session);
   } catch (error) {
     console.log(error);
