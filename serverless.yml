@@ -86,6 +86,7 @@ functions:
 
   getSession:
     handler: src/handler.handler
+    role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
     events:
       - http:
           path: sessions/sessions/{id}
@@ -94,6 +95,7 @@ functions:
 
   updateSessionUsage:
     handler: src/handler.handler
+    role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
     events:
       - http:
           path: sessions/sessions/{id}/update_usage
