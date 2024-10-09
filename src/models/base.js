@@ -16,8 +16,8 @@ class BaseEntity {
 }
 
 // Apply the attributes and table manually
-attribute()(BaseEntity.prototype, 'PK');
-attribute()(BaseEntity.prototype, 'SK');
+attribute({ name: 'PK' })(BaseEntity.prototype, 'PK');
+attribute({ name: 'SK' })(BaseEntity.prototype, 'SK');
 attribute()(BaseEntity.prototype, 'createdAt');
 attribute()(BaseEntity.prototype, 'updatedAt');
 

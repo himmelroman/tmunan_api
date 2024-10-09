@@ -17,7 +17,10 @@ class DAL {
       SK: `${e.entityType}#${entityId}`
     };
     e = Object.assign(e, key);
-    console.log(e);
+
+    console.log("Entity before get:", e);
+    console.log("PK:", e.PK, typeof e.PK);
+    console.log("SK:", e.SK, typeof e.SK);
     
     try {
       return await mapper.get(e);
