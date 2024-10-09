@@ -1,14 +1,18 @@
-const { BaseManyEntity } = require('./base');
+// const { BaseManyEntity } = require('./base');
 const { attribute } = require('@aws/dynamodb-data-mapper-annotations');
 const { v4: uuidv4 } = require('uuid');
 
 // Define the Session class extending BaseManyEntity
-class Session extends BaseManyEntity {
+class Session /*extends BaseManyEntity*/ {
   constructor(userId, sessionId, usageCount) {
-    super(userId, 'session');
+    // super(userId, 'session');
+    this.PK = userId;
+    this.entityType = 'session';
+    this.createdAt = new Date().toISOString();
+    this.updatedAt = new Date().toISOString();
     this.sessionId = sessionId || uuidv4();
-    this.SK = this.getSK();
     this.usageCount = usageCount || 0;
+    this.SK = this.getSK();
   }
 
   getSK() {
@@ -17,9 +21,14 @@ class Session extends BaseManyEntity {
 }
 
 // Apply attributes manually
+attribute({ name: 'PK' })(BaseEntity.prototype, 'PK');
+attribute({ name: 'SK' })(BaseEntity.prototype, 'SK');
+attribute()(BaseEntity.prototype, 'createdAt');
+attribute()(BaseEntity.prototype, 'updatedAt');
 attribute()(Session.prototype, 'usageCount');
 attribute()(Session.prototype, 'sessionId');
 
+table(process.env.DYNAMODB_TABLE)(Session);
 // No need to reapply the table decorator; it inherits from BaseEntity
 
 module.exports = Session;
