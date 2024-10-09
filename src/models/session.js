@@ -21,10 +21,10 @@ class Session /*extends BaseManyEntity*/ {
 }
 
 // Apply attributes manually
-attribute({ name: 'PK' })(BaseEntity.prototype, 'PK');
-attribute({ name: 'SK' })(BaseEntity.prototype, 'SK');
-attribute()(BaseEntity.prototype, 'createdAt');
-attribute()(BaseEntity.prototype, 'updatedAt');
+attribute({ name: 'PK' })(Session.prototype, 'PK');
+attribute({ name: 'SK' })(Session.prototype, 'SK');
+attribute()(Session.prototype, 'createdAt');
+attribute()(Session.prototype, 'updatedAt');
 attribute()(Session.prototype, 'usageCount');
 attribute()(Session.prototype, 'sessionId');
 
