@@ -10,12 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws/dynamodb-data-mapper-annotations": "^0.7.3",
     "aws-sdk": "^2.1691.0",
     "dotenv": "^16.4.5",
     "dynamodb-onetable": "^2.7.5",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
-    "serverless-http": "^3.2.0"
+    "serverless-http": "^3.2.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "serverless": "^3.32.0",

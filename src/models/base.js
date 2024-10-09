@@ -1,23 +1,13 @@
 const { attribute, table } = require('@aws/dynamodb-data-mapper-annotations');
 
-@table(process.env.DYNAMODB_TABLE)
+// Define the BaseEntity class
 class BaseEntity {
-  @attribute()
-  pk;
-
-  @attribute()
-  sk;
-
-  @attribute()
-  createdAt;
-
-  @attribute()
-  updatedAt;
-
   constructor(userId, entityType) {
     this.pk = userId;
     this.entityType = entityType;
     this.sk = this.getSK();
+    this.createdAt = new Date().toISOString();
+    this.updatedAt = new Date().toISOString();
   }
 
   getSK() {
@@ -25,11 +15,26 @@ class BaseEntity {
   }
 }
 
+// Apply the attributes and table manually
+attribute()(BaseEntity.prototype, 'pk');
+attribute()(BaseEntity.prototype, 'sk');
+attribute()(BaseEntity.prototype, 'createdAt');
+attribute()(BaseEntity.prototype, 'updatedAt');
+table(process.env.DYNAMODB_TABLE)(BaseEntity);
+
+// Define the BaseManyEntity class that extends BaseEntity
 class BaseManyEntity extends BaseEntity {
   getSK() {
     const timestamp = new Date().toISOString();
     return `${this.entityType}#${timestamp}`;
   }
 }
+
+// Apply the attributes manually for the derived class
+attribute()(BaseManyEntity.prototype, 'pk');
+attribute()(BaseManyEntity.prototype, 'sk');
+attribute()(BaseManyEntity.prototype, 'createdAt');
+attribute()(BaseManyEntity.prototype, 'updatedAt');
+table(process.env.DYNAMODB_TABLE)(BaseManyEntity);
 
 module.exports = { BaseEntity, BaseManyEntity };
