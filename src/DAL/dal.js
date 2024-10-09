@@ -1,7 +1,7 @@
 const mapper = require('./mapper');
 
 class DAL {
-  async saveEntity(entity) {
+  static async saveEntity(entity) {
     return await mapper.put({ item: entity });
   }
 
