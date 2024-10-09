@@ -99,7 +99,7 @@ functions:
     events:
       - http:
           path: sessions/sessions/{id}/update_usage
-          method: post
+          method: patch
           cors: true
 
 # functions:
