@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Session = require('../models/session');
-const { DAL } = require('../DAL/dal');
+const DAL = require('../DAL/dal');
 
 // Create a new session
 router.post('/sessions', async (req, res) => {
@@ -26,6 +26,7 @@ router.post('/sessions', async (req, res) => {
 // });
 
 // Read a session by ID
+/*
 router.get('/sessions/:id', async (req, res) => {
   try {
     const session = await DAL.getById(req.params.userId, 'session', req.params.id);
@@ -73,6 +74,6 @@ router.delete('/sessions/:id', async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
-});
+});*/
 
 module.exports = router;
