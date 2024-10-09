@@ -7,7 +7,7 @@ class Session extends BaseManyEntity {
     constructor(userId, sessionId, usageCount) {
         super(userId, 'session');
         this.sessionId = sessionId || uuidv4();
-        this.sk = this.getSK();
+        this.SK = this.getSK();
         this.usageCount = usageCount || 0;
     }
 
