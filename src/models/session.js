@@ -6,13 +6,13 @@ const { v4: uuidv4 } = require('uuid');
 class Session extends BaseManyEntity {
     constructor(userId, sessionId, usageCount) {
         super(userId, 'session');
-        this.sessionId = sessionId;
+        this.sessionId = sessionId || uuidv4();
+        this.sk = this.getSK();
         this.usageCount = usageCount || 0;
     }
 
     getSK() {
-        const guid = this.sessionId || uuidv4();
-        return `${this.entityType}#${guid}`;
+        return `${this.entityType}#${this.sessionId}`;
     }
 }
 

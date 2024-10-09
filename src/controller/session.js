@@ -7,7 +7,10 @@ const DAL = require('../DAL/dal');
 // Create a new session
 router.post('/sessions', async (req, res) => {
   try {
-    const session = new Session(req.body);
+    const session = new Session(
+        req.body.userId, req.body.sessionId, req.body.usageCount
+    );
+    console.log(session);
     await DAL.saveEntity(session); 
     res.status(201).send(session);
   } catch (error) {
