@@ -10,7 +10,7 @@ router.post('/sessions', async (req, res) => {
     const session = new Session(
         req.body.userId, req.body.sessionId, req.body.usageCount
     );
-    console.log(session);
+    
     await DAL.saveEntity(session); 
     res.status(201).send(session);
   } catch (error) {
@@ -29,10 +29,9 @@ router.post('/sessions', async (req, res) => {
 // });
 
 // Read a session by ID
-/*
 router.get('/sessions/:id', async (req, res) => {
   try {
-    const session = await DAL.getById(req.params.userId, 'session', req.params.id);
+    const session = await DAL.getById('value1', 'session', req.params.id); // TODO
     if (!session) {
       return res.status(404).send();
     }
@@ -44,22 +43,15 @@ router.get('/sessions/:id', async (req, res) => {
 
 // Update a session by ID
 router.patch('/sessions/:id/update_usage', async (req, res) => {
-  const updates = Object.keys(req.body);
-  const allowedUpdates = ['userId', 'sessionId', 'expiresAt'];
-  const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
-
-  if (!isValidOperation) {
-    return res.status(400).send({ error: 'Invalid updates!' });
-  }
-
+  
   try {
-    const session = await Session.findById(req.params.id);
+    const session = await Session.findById('value1', 'session', req.params.id); // TODO
     if (!session) {
       return res.status(404).send();
     }
 
-    updates.forEach((update) => (session[update] = req.body[update]));
-    await session.save();
+    session[usageCount] = req.body[usage_time_seconds];
+    await DAL.saveEntity(session);
     res.status(200).send(session);
   } catch (error) {
     res.status(400).send(error);
@@ -67,6 +59,7 @@ router.patch('/sessions/:id/update_usage', async (req, res) => {
 });
 
 // Delete a session by ID
+/*
 router.delete('/sessions/:id', async (req, res) => {
   try {
     const session = await Session.findByIdAndDelete(req.params.id);

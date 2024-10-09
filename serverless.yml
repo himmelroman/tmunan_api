@@ -80,7 +80,23 @@ functions:
     role: arn:aws:iam::090268630745:role/tmunan_orc_execution_role
     events:
       - http:
-          path: sessions/sessions
+          path: sessions
+          method: post
+          cors: true
+
+  getSession:
+    handler: src/handler.handler
+    events:
+      - http:
+          path: sessions/{id}
+          method: get
+          cors: true
+
+  updateSessionUsage:
+    handler: handler.updateSessionUsage
+    events:
+      - http:
+          path: sessions/{id}/update_usage
           method: post
           cors: true
 

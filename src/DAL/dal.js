@@ -9,7 +9,7 @@ class DAL {
     return await mapper.get(Object.assign(new entityClass(), key));
   }
 
-  async getById(userId, entityType, entityId) {
+  static async getById(userId, entityType, entityId) {
     return await mapper.get({ PK: userId, SK: `${entityType}#${entityId}` });
   }
 
