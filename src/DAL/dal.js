@@ -29,7 +29,7 @@ class DAL {
     // console.log("SK:", e.SK, typeof e.SK);
     
     try {
-      return await client.get(key).promise();
+      return await client.getItem(key).promise();
       // return await mapper.get(e);
     } catch (error) {
       console.log(error.__type);
