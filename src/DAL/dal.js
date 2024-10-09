@@ -1,5 +1,7 @@
-const { mapper, client } = require('./mapper');
+const { mapper } = require('./mapper');
 require('dotenv').config();
+const AWS = require('aws-sdk');
+const client = new AWS.DynamoDB.DocumentClient();
 
 class DAL {
   static async saveEntity(entity) {
@@ -14,24 +16,33 @@ class DAL {
     let e = new entityClass();
 
     const key = {
-      TableName: process.env.DYNAMODB_TABLE,
-      Key: {
-        PK: { S: userId },
-        SK: { S: `${e.entityType}#${entityId}` }
-      }
+      PK: userId,
+      SK: `${e.entityType}#${entityId}`
     };
+
+    const params = {
+      TableName: process.env.DYNAMODB_TABLE,
+      Key: key
+    };
+
+    
     
     
     // e = Object.assign(e, key);
 
-    // console.log("Entity before get:", e);
-    // console.log("PK:", e.PK, typeof e.PK);
-    // console.log("SK:", e.SK, typeof e.SK);
+    console.log("Entity before get:", params);
+    console.log("PK:", params.Key.PK, typeof params.Key.PK);
+    console.log("SK:", params.Key.SK, typeof params.Key.SK);
     
     try {
-      let item = await client.getItem(key).promise();
-      console.log("Item:", item);
-      return item;
+      const data = await client.get(params).promise();
+      if (data.Item) {
+        console.log('Item retrieved:', data.Item);
+        return data.Item;
+      } else {
+        console.log('No item found with the provided key.');
+        return null;
+      }
       // return await mapper.get(e);
     } catch (error) {
       console.log(error.__type);
