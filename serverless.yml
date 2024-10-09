@@ -88,15 +88,15 @@ functions:
     handler: src/handler.handler
     events:
       - http:
-          path: sessions/{id}
+          path: sessions/sessions/{id}
           method: get
           cors: true
 
   updateSessionUsage:
-    handler: handler.updateSessionUsage
+    handler: src/handler.handler
     events:
       - http:
-          path: sessions/{id}/update_usage
+          path: sessions/sessions/{id}/update_usage
           method: post
           cors: true
 
