@@ -25,6 +25,7 @@ class DAL {
     try {
       return await mapper.get(e);
     } catch (error) {
+      console.log(error.__type);
       console.error('Error getting entity by ID:', error);
       throw error;
     }
