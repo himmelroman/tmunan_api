@@ -5,7 +5,23 @@ const client = new AWS.DynamoDB.DocumentClient();
 
 class DAL {
   static async saveEntity(entity) {
+    console.log(entity);
     return await mapper.put({ item: entity });
+  }
+
+  static async saveEntity2(entity) {
+    const params = {
+      TableName: process.env.DYNAMODB_TABLE,
+      Item: entity
+    };
+
+    try {
+      await client.put(params).promise();
+      console.log('Entity saved:', entity);
+    } catch (error) {
+      console.error('Error saving entity:', error);
+      throw error;
+    }
   }
 
   async getEntity(entityClass, key) {

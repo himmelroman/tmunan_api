@@ -54,7 +54,7 @@ router.patch('/sessions/:id/update_usage', async (req, res) => {
     console.log(session);
     session.usageCount = req.body.usage_time_seconds;
     console.log(session);
-    await DAL.saveEntity(session);
+    await DAL.saveEntity2(session);
     res.status(200).send(session);
   } catch (error) {
     res.status(400).send(error);
